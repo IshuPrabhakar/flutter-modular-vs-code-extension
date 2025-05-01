@@ -1,6 +1,9 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import { createMainDart } from './file_generators/main_file_generator';
+import { createAppDart } from "./file_generators/app_file_generator";
+import { addFlutterDependencies } from "./utils/add_dependencies";
 
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand('flutter-modular.flutterDirStructure', async () => {
@@ -13,8 +16,10 @@ export function activate(context: vscode.ExtensionContext) {
     const rootPath = folderUri[0].fsPath;
     const libPath = path.join(rootPath, 'lib');
 
+    const appDartPath = 'lib/app'
+
     const folders = [
-      'lib/app',
+      appDartPath,
       'lib/src/common_widgets',
       'lib/src/constants',
       'lib/src/errors',
@@ -36,19 +41,18 @@ export function activate(context: vscode.ExtensionContext) {
     folders.forEach(folder => {
       fs.mkdirSync(path.join(rootPath, folder), { recursive: true });
     });
+    
+    // Add dependencies
+    addFlutterDependencies(rootPath, {
+      'flutter_riverpod': '^2.6.1',
+      'go_router': '^15.1.1'
+    });
 
     // main.dart
-    fs.writeFileSync(path.join(libPath, 'main.dart'),
-	`import 'package:flutter/material.dart';
-	import 'package:flutter_riverpod/flutter_riverpod.dart';
-	import 'src/app/app.dart';
+    createMainDart(libPath);
 
-	void main() {
-	runApp(const ProviderScope(child: MyApp()));
-	}
-	`);
-
-//     // app.dart
+    // app.dart
+    createAppDart(appDartPath);
 //     fs.writeFileSync(path.join(libPath, 'app', 'app.dart'),
 // 	`import 'package:flutter/material.dart';
 // 	import 'package:go_router/go_router.dart';
