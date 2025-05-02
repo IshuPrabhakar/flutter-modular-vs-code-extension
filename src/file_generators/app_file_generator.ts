@@ -2,10 +2,10 @@ import * as fs from "fs";
 import * as path from 'path';
 import { getFlutterProjectName } from "../utils/get_flutter_project_name";
 
-export function createAppDart(appDartPath: string) {
-  const filePath = path.join(appDartPath, 'app.dart');
+export function createAppDart(appDartPath: string, rootPath: string) {
+  const filePath = path.join(path.join(rootPath, appDartPath), 'app.dart');
 
-  const projectName = getFlutterProjectName(appDartPath);
+  const projectName = getFlutterProjectName(rootPath);
 
   const content = `
 import 'package:flutter/material.dart';
@@ -30,5 +30,5 @@ import 'core/app_router_config.dart';
   }
 }
 `;
-  fs.writeFileSync(filePath, content);
+  fs.writeFileSync(filePath, content, 'utf-8');
 }

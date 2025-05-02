@@ -11,29 +11,61 @@ export function addFlutterDependencies(projectRoot: string, dependencies: { [key
   }
 
   let pubspecContent = fs.readFileSync(pubspecPath, 'utf-8');
+  const lines = pubspecContent.split('\n');
 
-  // Ensure "dependencies:" exists
-  if (!pubspecContent.includes('dependencies:')) {
-    pubspecContent += '\ndependencies:\n';
+  let depStartIndex = lines.findIndex(line => line.trim() === 'dependencies:');
+
+  if (depStartIndex === -1) {
+    vscode.window.showErrorMessage('dependencies: section not found in pubspec.yaml.');
+    return;
   }
 
-  // Append each dependency if not already present
+  // Collect existing dependencies to avoid duplicates
+  const existingDeps = new Set<string>();
+  let insertIndex = depStartIndex + 1;
+
+  for (let i = depStartIndex + 1; i < lines.length; i++) {
+    const line = lines[i];
+
+    // If we hit another top-level section, stop
+    if (/^\S/.test(line)) {
+      break;
+    }
+
+    const match = line.match(/^\s*([a-zA-Z0-9_]+):/);
+    if (match) {
+      existingDeps.add(match[1]);
+    }
+
+    insertIndex = i + 1;
+  }
+
+  const newLines: string[] = [];
+
   for (const [pkg, version] of Object.entries(dependencies)) {
-    const depPattern = new RegExp(`^\\s*${pkg}:`, 'm');
-    if (!depPattern.test(pubspecContent)) {
-      pubspecContent += `  ${pkg}: ${version}\n`;
+    if (!existingDeps.has(pkg)) {
+      newLines.push(`  ${pkg}: ${version}`);
     }
   }
 
-  fs.writeFileSync(pubspecPath, pubspecContent, 'utf-8');
+  if (newLines.length === 0) {
+    vscode.window.showInformationMessage('All dependencies already exist.');
+    return;
+  }
+
+  lines.splice(insertIndex, 0, ...newLines);
+  fs.writeFileSync(pubspecPath, lines.join('\n'), 'utf-8');
 
   vscode.window.showInformationMessage('Dependencies added. Running flutter pub get...');
 
-  // Run flutter pub get
   const cp = require('child_process');
-  cp.exec('flutter pub get', { cwd: projectRoot }, (error: any, stdout: string, stderr: string) => {
+  const flutterCmd = process.platform === 'win32' ? 'flutter.bat' : 'flutter';
+
+  cp.exec(`${flutterCmd} pub get`, { cwd: projectRoot, env: process.env }, (error: any, stdout: string, stderr: string) => {
+    console.log('stdout:', stdout);
+    console.log('stderr:', stderr);
     if (error) {
-      vscode.window.showErrorMessage(`Failed to run flutter pub get: ${stderr}`);
+      vscode.window.showErrorMessage(`Failed to run flutter pub get: ${stderr || error.message}`);
       return;
     }
     vscode.window.showInformationMessage('flutter pub get completed successfully.');
