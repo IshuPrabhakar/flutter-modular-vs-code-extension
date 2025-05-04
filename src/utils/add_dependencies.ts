@@ -48,11 +48,6 @@ export function addFlutterDependencies(projectRoot: string, dependencies: { [key
     }
   }
 
-  if (newLines.length === 0) {
-    vscode.window.showInformationMessage('All dependencies already exist.');
-    return;
-  }
-
   lines.splice(insertIndex, 0, ...newLines);
   fs.writeFileSync(pubspecPath, lines.join('\n'), 'utf-8');
 

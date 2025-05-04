@@ -1,71 +1,103 @@
-# flutter-modular README
+## 📦 Flutter Modular Structure Generator
 
-This is the README for your extension "flutter-modular". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+A Visual Studio Code extension that generates a modular folder structure for Flutter projects using **Riverpod** and **GoRouter**, following clean architecture principles.
 
 ---
 
-## Following extension guidelines
+### ✨ Features
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+* 📁 **Generate Base Flutter Project Structure**
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+  * Creates a well-organized `lib/src` folder structure
+  * Sets up directories for app, routing, features, resources, and more
+  * Auto-generates essential Dart files like `main.dart`, `app.dart`, and `app_router.dart`
+  * Adds dependencies for `flutter_riverpod` and `go_router`
 
-## Working with Markdown
+* 🧩 **Generate a New Feature**
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+  * Prompts for a feature name (e.g., `auth`, `home`)
+  * Creates clean architecture layers:
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+    * `application/services`
+    * `data/`
+    * `domain/models`
+    * `ui/pages`, `widgets`, `states`, `controllers`
+  * Auto-generates a sample screen for the feature
 
-## For more information
+---
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+### 🛠 Commands
 
-**Enjoy!**
+| Command ID                                   | Description                                    |
+| -------------------------------------------- | ---------------------------------------------- |
+| `flutter-modular.flutterDirStructure`        | Generate the full Flutter app folder structure |
+| `flutter-modular.flutterFeatureDirStructure` | Generate a folder structure for a new feature  |
+
+---
+
+### 🚀 Usage
+
+1. Open a Flutter project in VS Code.
+2. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS).
+3. Run the command:
+
+   * **Generate Base Structure**: `Flutter Modular: Generate Project Structure`
+   * **Generate Feature**: `Flutter Modular: Generate Feature Folder Structure`
+4. For features, you'll be prompted to:
+
+   * Select the `lib/` folder
+   * Enter a feature name like `profile`, `settings`, etc.
+
+---
+
+### 📁 Example Output (Feature: `auth`)
+
+```
+lib/
+└── src/
+    └── features/
+        └── auth/
+            ├── application/services/
+            ├── data/repository/
+            ├── data/dtos/
+            ├── data/data_sources/
+            ├── domain/models/
+            └── ui/
+                ├── controllers/
+                ├── states/
+                ├── widgets/
+                └── pages/
+                    └── auth_screen.dart
+```
+
+---
+
+### 📦 Dependencies Added
+
+```yaml
+flutter_riverpod: ^2.6.1
+go_router: ^15.1.1
+```
+
+---
+
+### ✅ Requirements
+
+* Flutter SDK
+* VS Code
+* Dart & Flutter extensions installed
+
+---
+
+### 💡 Future Ideas (Optional Enhancements)
+
+* Generate additional base files (controller, state, model)
+* User-defined dependency versions
+* Configuration via a `.flutter_modularrc` file
+* Add CLI support
+
+---
+
+### 🧑‍💻 Contributing
+
+Pull requests, ideas, and issues are always welcome!

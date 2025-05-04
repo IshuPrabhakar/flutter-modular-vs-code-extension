@@ -1,16 +1,16 @@
 import * as fs from "fs";
 import * as path from 'path';
-import { getFlutterProjectName } from "../utils/get_flutter_project_name";
+import { getFlutterProjectName } from "../../utils/get_flutter_project_name";
 
 export function createAppDart(appDartPath: string, rootPath: string) {
   const filePath = path.join(path.join(rootPath, appDartPath), 'app.dart');
 
   const projectName = getFlutterProjectName(rootPath);
 
-  const content = `
-import 'package:flutter/material.dart';
+  const content = 
+`import 'package:flutter/material.dart';
 
-import 'core/app_router_config.dart';
+import '../routing/app_router_config.dart';
 
  class App extends StatelessWidget {
   const App({super.key});

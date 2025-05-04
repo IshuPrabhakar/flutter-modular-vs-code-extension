@@ -1,21 +1,45 @@
 {
-  "name": "flutter-modular",
-  "displayName": "flutter-modular",
-  "description": "A vs code extension to generate modular and scalable flutter folder structure",
-  "version": "0.0.1",
+  "icon": "images/icon.jpg",
+  "name": "flutter-modular-structure-generator",
+  "displayName": "Flutter Modular Structure Generator",
+  "description": "Generate modular folder structures for Flutter apps using Riverpod and GoRouter.",
+  "version": "1.0.0",
+  "publisher": "IshuPrabhakar",
   "engines": {
     "vscode": "^1.99.0"
   },
-  "categories": [
-    "Other"
+  "categories": ["Other", "Snippets"],
+  "keywords": [
+    "Flutter",
+    "Riverpod",
+    "GoRouter",
+    "Structure",
+    "Modular",
+    "Boilerplate",
+    "Generator",
+    "Feature",
+    "Architecture"
   ],
-  "activationEvents": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IshuPrabhakar/flutter-modular-vs-code-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IshuPrabhakar/flutter-modular-vs-code-extension/issues"
+  },
+  "homepage": "https://github.com/IshuPrabhakar/flutter-modular-vs-code-extension",
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "flutter-modular.flutterDirStructure",
-        "title": "Flutter Generate folder Structure"
+        "command": "flutter-modular-structure-generator.flutterDirStructure",
+        "title": "Generate Folder Structure",
+        "category": "Flutter"
+      },
+      {
+        "command": "flutter-modular-structure-generator.flutterFeatureDirStructure",
+        "title": "Generate Feature Folder Structure",
+        "category": "Flutter"
       }
     ]
   },
@@ -24,7 +48,7 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src",
+    "lint": "eslint src --ext ts",
     "test": "vscode-test"
   },
   "devDependencies": {

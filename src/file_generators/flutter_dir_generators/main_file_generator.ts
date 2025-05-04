@@ -4,8 +4,8 @@ import * as path from 'path';
 export function createMainDart(libPath: string) {
   const filePath = path.join(libPath, 'main.dart');
 
-  const content = `
-import 'package:flutter/material.dart';
+  const content = 
+`import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'src/app/app.dart';
 
