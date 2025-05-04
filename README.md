@@ -101,3 +101,5 @@ go_router: ^15.1.1
 ### 🧑‍💻 Contributing
 
 Pull requests, ideas, and issues are always welcome!
+
+### [YouTube link](https://youtu.be/kpER6ypTjeg)
